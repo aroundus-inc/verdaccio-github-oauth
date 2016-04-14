@@ -1,0 +1,18 @@
+{
+  "name": "sinopia-github-oauth",
+  "version": "1.0.0",
+  "description": "auth plugin for sinopia supporting github oauth flow",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/soundtrackyourbrand/sinopia-github-oauth"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "http-errors": "^1.4.0"
+  }
+}
