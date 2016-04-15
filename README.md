@@ -27,3 +27,6 @@ auth:
     org: soundtrackyourbrand # required, people within this org will be able to auth
     cache-ttl-ms: 60000 # default to 30s if not present
 ```
+
+## Authenticating
+You cannot use `npm login` to authenticate via this method, instead install [sinopia-github-oauth-cli](https://github.com/soundtrackyourbrand/sinopia-github-oauth-cli)
