@@ -8,7 +8,8 @@ Instead of npm installing sinopia, you'll have to clone [our fork](https://githu
 
 * `$ git clone `
 * `$ cd sinopia`
-* `$ npm install sinopia-github-oauth`
+* `$ npm i`
+* `$ npm i sinopia-github-oauth`
 * Create an [oauth application](https://github.com/settings/applications/new) in github
 
 ## Running
