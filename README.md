@@ -1,19 +1,15 @@
 # sinopia-github-oauth
 Sinopia authentication plugin with github oauth web flow
 
-This will allow you to auth via github web oauth flow. However, currently it cannot be used with standard sinopia since it requires [this](https://github.com/rlidwka/sinopia/pull/395) pr to be merged, and the official sinopia project seems to be a bit abandoned by its creators.
+This will allow you to auth via github web oauth flow. It is compatible with [sinopia2](https://www.npmjs.com/package/sinopia2)
 
 ## Installation
-Instead of npm installing sinopia, you'll have to clone [our fork](https://github.com/soundtrackyourbrand/sinopia):
-
-* `$ git clone `
-* `$ cd sinopia`
-* `$ npm i`
-* `$ npm i sinopia-github-oauth`
 * Create an [oauth application](https://github.com/settings/applications/new) in github
+* `$ npm i sinopia2 -g`
+* `$ npm i sinopia-github-oauth -g`
 
-## Running
-Just run `bin/sinopia` from where you cloned sinopia
+## Run
+`$ sinopia`
 
 ## Configuration
 Add the following in your `config.yaml`
