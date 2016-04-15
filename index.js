@@ -21,23 +21,35 @@ function authenticate(config, stuff, user, accessToken, cb) {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'User-Agent': config.user_agent,
+      'User-Agent': config.user_agent || 'sinopia-github-oauth',
       'Authorization': 'Bearer ' + accessToken
     }
   };
 
   https.request(opts, function(resp) {
     var body = [];
+
+    resp.on('error', function() {
+      return cb(Error[502]('unexpected error'));
+    });
+
     resp.on('data', function(chunk) {
       body.push(chunk);
-    }).on('end', function() {
+    });
+
+    resp.on('end', function() {
       var data = Buffer.concat(body).toString();
+
+      if (resp.statusCode !== 200) {
+        return cb(Error[resp.statusCode]('unexpected response from github: "' + data + '"'));
+      }
+
       var orgs = JSON.parse(data).map(function(org) {
         return org.login;
       });
 
       if (orgs.indexOf(config.org) === -1) {
-        return Error[403]('user "' + user + '" is not a member of "' + config.org + '"');
+        return cb(Error[403]('user "' + user + '" is not a member of "' + config.org + '"'));
       }
 
       cache[user] = {
@@ -55,7 +67,7 @@ function middlewares(config, stuff, app, auth, storage) {
   var clientSecret = config['client-secret'];
 
   if (clientId === undefined || clientSecret === undefined) {
-    return next(Error[500]('server needs to be configured with github client id and secret'))
+    throw Error('server needs to be configured with github client id and secret')
   }
 
   app.use('/oauth/authorize', function(req, res) {
@@ -85,11 +97,20 @@ function middlewares(config, stuff, app, auth, storage) {
 
     var r = https.request(opts, function(resp) {
       var body = [];
+      resp.on('error', function() {
+        return next(Error[502]('unexpected error'))
+      });
       resp.on('data', function(chunk) {
         body.push(chunk);
-      }).on('end', function() {
-        var accessToken = JSON.parse(Buffer.concat(body).toString()).access_token;
+      });
+      resp.on('end', function() {
+        var data = Buffer.concat(body).toString();
 
+        if (resp.statusCode !== 200) {
+          return next(Error[resp.statusCode]('unexpected response from github: "' + data + '"'));
+        }
+
+        var accessToken = JSON.parse(data).access_token;
         var opts = {
           host: 'api.github.com',
           port: 443,
@@ -97,7 +118,7 @@ function middlewares(config, stuff, app, auth, storage) {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
-            'User-Agent': config.user_agent,
+            'User-Agent': config.user_agent || 'sinopia-github-oauth',
             'Authorization': 'Bearer ' + accessToken
           }
         };
@@ -108,6 +129,10 @@ function middlewares(config, stuff, app, auth, storage) {
             body.push(chunk);
           }).on('end', function() {
             var data = Buffer.concat(body).toString();
+
+            if (resp.statusCode !== 200) {
+              return next(Error[resp.statusCode]('unexpected response from github: "' + data + '"'));
+            }
 
             var user = JSON.parse(data).login;
             if (user === undefined) {
