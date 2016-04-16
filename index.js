@@ -21,7 +21,7 @@ function authenticate(config, stuff, user, accessToken, cb) {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'User-Agent': config.user_agent || 'sinopia-github-oauth',
+      'User-Agent': stuff.config.user_agent,
       'Authorization': 'Bearer ' + accessToken
     }
   };
@@ -89,6 +89,7 @@ function middlewares(config, stuff, app, auth, storage) {
       path: '/login/oauth/access_token',
       method: 'POST',
       headers: {
+        'User-Agent': stuff.config.user_agent,
         'Content-Type': 'application/json',
         'Content-Length': Buffer.byteLength(data),
         'Accept': 'application/json'
@@ -118,7 +119,7 @@ function middlewares(config, stuff, app, auth, storage) {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
-            'User-Agent': config.user_agent || 'sinopia-github-oauth',
+            'User-Agent': stuff.config.user_agent,
             'Authorization': 'Bearer ' + accessToken
           }
         };
