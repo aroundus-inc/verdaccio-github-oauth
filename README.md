@@ -5,6 +5,7 @@ This will allow you to auth via github web oauth flow. It is compatible with [si
 
 ## Installation
 * Create an [oauth application](https://github.com/settings/applications/new) in github
+* Set the callback url of your github application to http://url-to.your.registry/oauth/callback
 * `$ npm i sinopia2 -g`
 * `$ npm i sinopia-github-oauth -g`
 
