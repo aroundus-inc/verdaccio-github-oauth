@@ -1,7 +1,7 @@
 # sinopia-github-oauth
 Sinopia authentication plugin with github oauth web flow
 
-This will allow you to auth via github web oauth flow. It is compatible with [sinopia2](https://www.npmjs.com/package/sinopia2)
+This will allow you to auth via github web oauth flow. It is compatible with [sinopia2](https://www.npmjs.com/package/sinopia2) (v2.0.2 and later)
 
 ## Installation
 * Create an [oauth application](https://github.com/settings/applications/new) in github
