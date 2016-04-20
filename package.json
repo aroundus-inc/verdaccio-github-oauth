@@ -13,5 +13,13 @@
   "license": "MIT",
   "dependencies": {
     "http-errors": "^1.4.0"
-  }
+  },
+  "keywords": [
+    "sinopia",
+    "npm",
+    "github",
+    "oauth",
+    "auth",
+    "plugin"
+  ]
 }
