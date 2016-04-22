@@ -1,6 +1,6 @@
 {
   "name": "sinopia-github-oauth",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "authentication plugin for sinopia2, supporting github oauth web flow",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "github.com/soundtrackyourbrand/sinopia-github-oauth"
+    "url": "https://github.com/soundtrackyourbrand/sinopia-github-oauth.git"
   },
   "license": "MIT",
   "dependencies": {
