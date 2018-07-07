@@ -1,6 +1,6 @@
 {
   "name": "verdaccio-github-oauth",
-  "version": "1.0.1-canary.0",
+  "version": "1.0.1",
   "description": "authentication plugin for verdaccio, supporting github oauth web flow",
   "main": "index.js",
   "scripts": {
