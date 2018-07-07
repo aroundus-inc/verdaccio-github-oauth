@@ -1,7 +1,15 @@
 var https = require('https');
-var Error = require('http-errors')
+var Error = require('http-errors');
+var Crypto = require('crypto');
 
 var cache = {};
+
+function aes_encrypt(buf) {
+  var c = Crypto.createCipher('aes192', this.secret);
+  var b1 = c.update(buf);
+  var b2 = c.final();
+  return Buffer.concat([ b1, b2 ]);
+}
 
 function authenticate(config, stuff, user, accessToken, cb) {
   var cacheTTLms = config['cache-ttl-ms'] || 1000 * 30;
@@ -140,7 +148,7 @@ function middlewares(config, stuff, app, auth, storage) {
               return next(Error[502]('error getting user from github: ' + data))
             }
 
-            var token = auth.aes_encrypt(user + ':' + accessToken).toString('base64');
+            var token = aes_encrypt(user + ':' + accessToken).toString('base64');
             res.redirect('http://localhost:8239?token=' + encodeURIComponent(token));
           });
         }).end();

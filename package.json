@@ -1,21 +1,21 @@
 {
-  "name": "sinopia-github-oauth",
+  "name": "verdaccio-github-oauth",
   "version": "1.0.1",
-  "description": "authentication plugin for sinopia2, supporting github oauth web flow",
+  "description": "authentication plugin for verdaccio, supporting github oauth web flow",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/soundtrackyourbrand/sinopia-github-oauth.git"
+    "url": "https://github.com/aroundus-inc/verdaccio-github-oauth.git"
   },
   "license": "MIT",
   "dependencies": {
     "http-errors": "^1.4.0"
   },
   "keywords": [
-    "sinopia",
+    "verdaccio",
     "npm",
     "github",
     "oauth",
