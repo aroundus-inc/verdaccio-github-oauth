@@ -13,6 +13,8 @@ function aes_encrypt(buf, secret) {
 
 function authenticate(config, stuff, user, accessToken, cb) {
   var cacheTTLms = config['cache-ttl-ms'] || 1000 * 30;
+  var apiUrl = cache[apiUrl] || 'api.github.com';
+  var apiPath = cache[apiUrl] ? '/api/v3/user/orgs' : '/user/orgs';
 
   if (cache[user] && cache[user].token === accessToken) {
     if (cache[user].expires > Date.now()) {
@@ -23,9 +25,9 @@ function authenticate(config, stuff, user, accessToken, cb) {
   }
 
   var opts = {
-    host: 'api.github.com',
+    host: apiUrl,
     port: 443,
-    path: '/user/orgs',
+    path: apiPath,
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -73,13 +75,16 @@ function authenticate(config, stuff, user, accessToken, cb) {
 function middlewares(config, stuff, app, auth, storage) {
   var clientId = config['client-id'];
   var clientSecret = config['client-secret'];
-
+  var gitHostname = config['git-hostname'] || 'github.com';
+  var apiUrl = config['git-hostname'] ? config['git-hostname'] : 'api.github.com';
+  var apiPath = config['git-hostname'] ? '/api/v3/user' : '/user';
+  cache[apiUrl] = apiUrl;
   if (clientId === undefined || clientSecret === undefined) {
     throw Error('server needs to be configured with github client id and secret')
   }
 
   app.use('/oauth/authorize', function(req, res) {
-    res.redirect('https://github.com/login/oauth/authorize?client_id=' + clientId + '&scope=read:org')
+    res.redirect('https://' + gitHostname + '/login/oauth/authorize?client_id=' + clientId + '&scope=read:org')
   });
 
   app.use('/oauth/callback', function(req, res, next) {
@@ -92,7 +97,7 @@ function middlewares(config, stuff, app, auth, storage) {
     });
 
     var opts = {
-      host: 'github.com',
+      host: gitHostname,
       port: 443,
       path: '/login/oauth/access_token',
       method: 'POST',
@@ -121,9 +126,9 @@ function middlewares(config, stuff, app, auth, storage) {
 
         var accessToken = JSON.parse(data).access_token;
         var opts = {
-          host: 'api.github.com',
+          host: apiUrl,
           port: 443,
-          path: '/user',
+          path: apiPath,
           method: 'GET',
           headers: {
             'Accept': 'application/json',

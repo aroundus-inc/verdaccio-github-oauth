@@ -18,6 +18,7 @@ middlewares:
   github-oauth:
     client-id: github-app-id # required
     client-secret: github-app-secret # required
+    git-hostname: git-enteprise-base-url # optional 
 
 auth:
   github-oauth:
