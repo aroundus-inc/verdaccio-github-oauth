@@ -4,6 +4,10 @@ var Crypto = require('crypto');
 
 var cache = {};
 
+var CACHE_KEY = {
+  API_URL: 'API_URL'
+};
+
 function aes_encrypt(buf, secret) {
   var c = Crypto.createCipher('aes192', secret);
   var b1 = c.update(buf);
@@ -13,7 +17,7 @@ function aes_encrypt(buf, secret) {
 
 function authenticate(config, stuff, user, accessToken, cb) {
   var cacheTTLms = config['cache-ttl-ms'] || 1000 * 30;
-  var apiUrl = cache[apiUrl] || 'api.github.com';
+  var apiUrl = cache[CACHE_KEY.API_URL] || 'api.github.com';
   var apiPath = cache[apiUrl] ? '/api/v3/user/orgs' : '/user/orgs';
 
   if (cache[user] && cache[user].token === accessToken) {
@@ -78,7 +82,7 @@ function middlewares(config, stuff, app, auth, storage) {
   var gitHostname = config['git-hostname'] || 'github.com';
   var apiUrl = config['git-hostname'] ? config['git-hostname'] : 'api.github.com';
   var apiPath = config['git-hostname'] ? '/api/v3/user' : '/user';
-  cache[apiUrl] = apiUrl;
+  cache[CACHE_KEY.API_URL] = apiUrl;
   if (clientId === undefined || clientSecret === undefined) {
     throw Error('server needs to be configured with github client id and secret')
   }
